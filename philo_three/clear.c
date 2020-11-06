@@ -1,42 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/04 16:49:05 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:14:47 by alicetetu        ###   ########.fr       */
+/*   Created: 2020/11/04 11:04:51 by alicetetu         #+#    #+#             */
+/*   Updated: 2020/11/06 15:38:29 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <stdio.h>
-
-int		exit_philo(t_philo *philo, int n)
-{
-	int	nb;
-
-	if (philo)
-	{
-		nb = philo[0].data->nb_philo;
-		sem_post(philo->data->sem_forks);
-		sem_post(philo->data->sem_forks);
-		sem_close(philo->data->sem_forks);
-		sem_close(philo->data->sem_write);
-		sem_unlink("forks");
-		sem_unlink("write");
-		clear_data(philo[0].data);
-		clear_philo(philo);
-	}
-	return (n);
-}
-
-void	*exit_data(t_data *data, char *str)
-{
-	clear_data(data);
-	return (error_data(str));
-}
 
 void	clear_data(t_data *data)
 {
@@ -53,5 +27,23 @@ void	clear_philo(t_philo *philo)
 	{
 		free(philo);
 		philo = NULL;
+	}
+}
+
+// void	clear_pid_philo(t_pid *pid_philo)
+// {
+// 	if (pid_philo)
+// 	{
+// 		free(pid_philo);
+// 		pid_philo = NULL;
+// 	}
+// }
+
+void	clear_array_wait_pid(pthread_t *array_wait_pid)
+{
+	if (array_wait_pid)
+	{
+		free(array_wait_pid);
+		array_wait_pid = NULL;
 	}
 }

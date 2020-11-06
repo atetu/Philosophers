@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:42 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:05:42 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 15:35:53 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,37 @@ t_data	*init_data(int argc, char **argv)
 		return (exit_data(data, "Wrong arguments.\n"));
 	data->sem_forks = create_sem("forks", data->nb_philo);
 	data->sem_write = create_sem("write", 1);
+	data->sem_dead = create_sem("dead", 1);
+	sem_wait(data->sem_dead);
+	if (data->nb_needed_meals != -1)
+	{
+		sem_unlink("meals");
+		data->sem_meals = create_sem("meals", 1);
+		sem_wait(data->sem_meals);
+	}
 	data->start = timestamp();
 	return (data);
 }
 
 t_philo	*init_philo(t_data *data)
 {
-	int		i;
 	t_philo	*philo;
 
-	i = 0;
 	philo = NULL;
 	if (!(philo = malloc(sizeof(t_philo) * data->nb_philo)))
 		return (exit_data(data, "Problem during memory allocation.\n"));
-	philo = init_each_philo(philo, data);
+	if (!(philo = init_each_philo(philo, data)))
+	{
+		clear_philo(philo);
+		return (exit_data(data, "Problem during memory allocation\n"));
+	}
 	return (philo);
 }
 
 t_philo	*init_each_philo(t_philo *philo, t_data *data)
 {
-	int i;
-
+	int		i;
+	
 	i = 0;
 	while (i < data->nb_philo)
 	{

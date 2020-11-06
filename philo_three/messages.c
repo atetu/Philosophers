@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 21:02:15 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 11:06:04 by alicetetu        ###   ########.fr       */
+/*   Created: 2020/10/12 12:12:18 by atetu             #+#    #+#             */
+/*   Updated: 2020/11/06 15:33:04 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,21 @@ static int		check_num_str(int num, char *str)
 	return (0);
 }
 
-int				write_message(int num, t_philo *philo, char *str)
+void			write_message(int num, t_philo *philo, char *str)
 {
 	unsigned long long	t;
 
-	pthread_mutex_lock(&philo->data->mutex_write);
+	sem_wait(philo->data->sem_write);
 	if (!philo->data->nb_deaths)
 	{
 		if (philo->data->end)
 		{
 			if (check_num_str(num, str))
-				return (0);
+				return ;
 			if (check_program_end(num, philo, str))
-				return (0);
+				return ;
 		}
-		if (!philo->data->nb_deaths)
+		if (!philo->data->nb_deaths && !philo->data->end)
 		{
 			t = (timestamp() - philo->data->start);
 			ft_putnbr_ull(t);
@@ -73,10 +73,7 @@ int				write_message(int num, t_philo *philo, char *str)
 			ft_putstr(str);
 		}
 	}
-	else
-		return (0);
-	pthread_mutex_unlock(&philo->data->mutex_write);
-	return (1);
+	sem_post(philo->data->sem_write);
 }
 
 int				error(char *str)

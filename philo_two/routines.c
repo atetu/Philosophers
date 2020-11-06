@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <atetu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:11 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/06/05 17:45:41 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/10/13 14:33:58 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,10 @@
 void				*routine_philo(void *philo)
 {
 	t_philo			*p;
-	pthread_t		control_death;
-	struct timeval	start;
 
 	p = (t_philo*)philo;
-	gettimeofday(&start, NULL);
-	p->start = start.tv_sec * 1000000 + start.tv_usec;
-	p->death = p->start + p->data->time_to_die;
-	if (pthread_create(&control_death, NULL, philo_dies, philo)
-			|| pthread_detach(control_death))
-	{
-		write_message(0, philo, "Problem during memory allocation.\n");
-//		pthread_mutex_unlock(&p->data->mutex_died);
-		return ((void*)1);
-	}
-	while (p->dead == 0 && p->data->nb_deaths == 0)
+	p->start = p->data->start;
+	while (p && p->data->nb_deaths == 0)
 	{
 		takes_fork(p->num, p);
 		eats(p->num, p);
@@ -47,30 +36,32 @@ void				*routine_meals(void *philo)
 	p = philo;
 	while (1)
 	{
-		if (p->count_meals >= p->data->nb_needed_meals)
+		if (p->count_meals >= p->data->nb_needed_meals && p->global_meals == 0
+			&& p->data->nb_deaths == 0)
 		{
 			p->data->eaten_meals++;
-			return ((void*)0);
+			p->global_meals = 1;
+			if (p->data->eaten_meals >= p->data->nb_philo)
+			{
+				p->data->end = 1;
+				write_message(p->num, p, "END OF SIMULATION.\n");
+			}
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
 
-void				*routine_total_meals(void *philo)
-{
-	t_philo *p;
-
-	p = philo;
-	while (1)
-	{
-		if (p->data->eaten_meals >= p->data->nb_philo)
-		{
-//			pthread_mutex_unlock(&p->data->mutex_died);
-			return (0);
-		}
-	}
-	return (NULL);
-}
+/*
+**#include <sys/time.h>
+**int gettimeofday(struct timeval *tv, struct timezone *tz);
+**The tv argument is a struct timeval (as specified in <sys/time.h>):
+**           struct timeval {
+**             time_t      tv_sec;     seconds
+**             suseconds_t tv_usec;    microseconds
+**         };
+**and gives the number of seconds and microseconds since the Epoch
+*/
 
 unsigned long long	timestamp(void)
 {
@@ -78,6 +69,12 @@ unsigned long long	timestamp(void)
 	unsigned long long	timestamp;
 
 	gettimeofday(&time, NULL);
-	timestamp = time.tv_sec * 1000000 + time.tv_usec;
+	timestamp = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 	return (timestamp);
+}
+
+void				ft_sleep(unsigned long long end, t_philo *philo)
+{
+	while (timestamp() < end && philo->data->nb_deaths == 0)
+		usleep(500);
 }

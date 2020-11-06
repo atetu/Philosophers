@@ -6,29 +6,33 @@
 #    By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/04 18:47:11 by alicetetu         #+#    #+#              #
-#    Updated: 2020/11/04 18:53:31 by alicetetu        ###   ########.fr        #
+#    Updated: 2020/11/06 15:40:09 by alicetetu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = 		philo_one
+NAME = 		philo_three
 
 SRCS =		main.c \
+			clear.c \
 			exit.c \
 			init.c \
 			messages.c \
+			monitor.c \
 			philo_actions.c \
+			process.c \
 			routines.c \
+			time.c \
 			threads.c \
 			utils.c \
-			utils_2.c 
+			utils_2.c
 
 OBJS = 		$(SRCS:.c=.o)
 
-CC =		clang
+CC =		gcc
 
 RM = 		rm -f
 
-CFLAGS = 	-Wall -Wextra -Werror
+CFLAGS = 	-Wall -Wextra -Werror -g3
 
 COMPILE	=	$(CC) $(FLAGS) -I. 
 
@@ -36,7 +40,7 @@ all:		$(NAME)
 
 
 $(NAME): 	$(OBJS)
-			$(COMPILE) -pthread $(OBJS) -o $(NAME)
+			$(COMPILE) $(OBJS) -o $(NAME)
 
 clean:		
 			${RM} ${OBJS}

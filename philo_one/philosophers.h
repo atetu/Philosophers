@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <atetu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/06/04 18:41:05 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 11:07:33 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ typedef struct		s_data
 	unsigned long long	time_to_die;
 	unsigned long long	time_to_eat;
 	unsigned long long	time_to_sleep;
+	unsigned long long	start;
 	int					nb_needed_meals;
 	int					eaten_meals;
 	int					nb_deaths;
+	int					end;
 	t_fork				**forks;
 	pthread_mutex_t		mutex_write;
 	pthread_mutex_t		mutex_died;
@@ -48,6 +50,7 @@ typedef struct		s_philo
 	unsigned long long	last_meal;
 	unsigned long long	death;
 	int					count_meals;
+	int					global_meals;
 	int					is_eating;
 	int					dead;
 	pthread_t			thread_philo;
@@ -68,23 +71,26 @@ void				ft_putstr(char *s);
 int					check_args(int argc, char **argv);
 t_data				*init_data(int argc, char **argv);
 t_data				*init_forks(t_data *data);
-t_philo				**init_philo(t_data *data);
-t_philo				**init_each_philo(t_philo **philo, t_data *data);
-int					init_threads(t_philo **philo, int nb_philo);
-int					init_threads_meals(t_philo **philo, int nb_philo);
+t_philo				*init_philo(t_data *data);
+t_philo				*init_each_philo(t_philo *philo, t_data *data);
+int					init_threads(t_philo *philo, int nb_philo);
+int					init_threads_meals(t_philo *philo, int nb_philo);
 void				*routine_philo(void *philo);
 void				*routine_meals(void *philo);
 void				*routine_total_meals(void *philo);
 unsigned long long	timestamp(void);
-void				takes_fork(int num, t_philo *philo);
-void				eats(int num, t_philo *philo);
-void				puts_down_forks(int num, t_philo *philo);
-void				sleeps(int num, t_philo *philo);
-void				write_message(int num, t_philo *philo, char *str);
+int					takes_fork(int num, t_philo *philo);
+int					eats(int num, t_philo *philo);
+int					puts_down_forks(int num, t_philo *philo);
+int					sleeps(int num, t_philo *philo);
+int					write_message(int num, t_philo *philo, char *str);
 void				*philo_dies(void *philo);
-int					exit_philo(t_philo **philo, int n);
-void				*exit_data(t_data *data, char *str);
+int					exit_philo(t_philo *philo, int n);
+void				*exit_data(t_data *data, char *str, int opt);
 void				clear_forks(t_fork **forks, int nb);
 void				clear_data(t_data *data);
-void				clear_philo(t_philo **philo, int nb);
+void				clear_philo(t_philo *philo, int nb);
+void				ft_sleep(unsigned long long end, t_philo *philo);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+void				*philo_action(void *philo);
 #endif

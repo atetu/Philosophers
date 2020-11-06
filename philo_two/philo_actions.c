@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <atetu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:33:50 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/06/05 20:23:46 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/10/13 14:49:12 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,78 +14,63 @@
 
 void	takes_fork(int num, t_philo *philo)
 {
-
-/*	if (philo->right_fork->num > philo->left_fork->num)
+	if (!philo->data->nb_deaths)
 	{
-		pthread_mutex_lock(&philo->left_fork->mutex_fork);
-		pthread_mutex_lock(&philo->mutex_alive);
+		sem_wait(philo->data->sem_forks);
 		write_message(num, philo, " has taken a fork.\n");
-		pthread_mutex_unlock(&philo->mutex_alive);
-		pthread_mutex_lock(&philo->right_fork->mutex_fork);
-		pthread_mutex_lock(&philo->mutex_alive);
-		write_message(num, philo, " has taken a fork.\n");
-		pthread_mutex_unlock(&philo->mutex_alive);
 	}
-	else
+	if (!philo->data->nb_deaths)
 	{
-		pthread_mutex_lock(&philo->right_fork->mutex_fork);
-		pthread_mutex_lock(&philo->mutex_alive);
+		sem_wait(philo->data->sem_forks);
 		write_message(num, philo, " has taken a fork.\n");
-		pthread_mutex_unlock(&philo->mutex_alive);
-		pthread_mutex_lock(&philo->left_fork->mutex_fork);
-		pthread_mutex_lock(&philo->mutex_alive);
-		write_message(num, philo, " has taken a fork.\n");
-		pthread_mutex_unlock(&philo->mutex_alive);
-	}*/
+	}
+	ft_sleep(timestamp() + 1, philo);
 }
 
 void	eats(int num, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
 	philo->is_eating = 1;
 	write_message(num, philo, " is eating.\n");
-	usleep(philo->data->time_to_eat);
 	philo->count_meals++;
-	philo->last_meal = timestamp();
+	ft_sleep(timestamp() + philo->data->time_to_eat, philo);
 	philo->death = timestamp() + philo->data->time_to_die;
 	philo->is_eating = 0;
-	pthread_mutex_unlock(&philo->mutex_alive);
+	ft_sleep(timestamp() + 1, philo);
 }
 
 void	sleeps(int num, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
 	write_message(num, philo, " is sleeping.\n");
-	pthread_mutex_unlock(&philo->mutex_alive);
-	usleep(philo->data->time_to_sleep);
-	pthread_mutex_unlock(&philo->mutex_alive);
+	ft_sleep(timestamp() + philo->data->time_to_sleep, philo);
 }
 
 void	puts_down_forks(int num, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex_alive);
-	write_message(num, philo, " puts down his forks.\n");
-	pthread_mutex_unlock(&philo->right_fork->mutex_fork);
-	pthread_mutex_unlock(&philo->left_fork->mutex_fork);
-	pthread_mutex_unlock(&philo->mutex_alive);
+	if (!philo->data->nb_deaths)
+		sem_post(philo->data->sem_forks);
+	if (!philo->data->nb_deaths)
+	{
+		sem_post(philo->data->sem_forks);
+		write_message(num, philo, " puts down his forks.\n");
+	}
 }
 
 void	*philo_dies(void *philo)
 {
-	t_philo *p;
+	t_philo				*p;
+	unsigned long long	t;
 
 	p = philo;
 	while (1)
 	{
-		pthread_mutex_lock(&p->mutex_alive);
-		if (!(p->is_eating) && p->death <= timestamp())
+		t = timestamp();
+		if (p->death <= t && !p->is_eating)
 		{
+			p->data->end = 1;
 			write_message(p->num, p, " dies.\n");
-			p->dead = 1;
-			p->data->nb_deaths = 1;
-			pthread_mutex_unlock(&p->data->mutex_died);
 			return ((void *)1);
 		}
-		pthread_mutex_unlock(&p->mutex_alive);
+		t = 0;
 	}
+	return ((void *)0);
 }

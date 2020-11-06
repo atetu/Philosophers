@@ -6,29 +6,47 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:05 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:14:47 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 15:26:03 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <stdio.h>
 
-int		exit_philo(t_philo *philo, int n)
+int		exit_philo_data(t_philo *philo, int n)
 {
-	int	nb;
-
 	if (philo)
 	{
-		nb = philo[0].data->nb_philo;
-		sem_post(philo->data->sem_forks);
-		sem_post(philo->data->sem_forks);
-		sem_close(philo->data->sem_forks);
-		sem_close(philo->data->sem_write);
-		sem_unlink("forks");
-		sem_unlink("write");
 		clear_data(philo[0].data);
 		clear_philo(philo);
 	}
+	return (n);
+}
+
+// int		exit_philo_data_pid(t_philo *philo, int n)
+// {
+// 	if (philo)
+// 	{
+// 		clear_data(philo[0].data);
+// 		clear_philo(philo);
+// 		clear_pid_philo(pid_philo);
+// 	}
+// 	return (n);
+// }
+
+int		exit_philo_data_array(t_philo *philo, pthread_t *array_wait_pid, int n)
+{
+	usleep(1000);
+	if (philo)
+	{
+		clear_data(philo[0].data);
+		clear_philo(philo);
+	//	clear_pid_philo(pid_philo);
+		clear_array_wait_pid(array_wait_pid);
+	}
+	// while (1)
+	// {
+		
+	// }
 	return (n);
 }
 
@@ -36,22 +54,4 @@ void	*exit_data(t_data *data, char *str)
 {
 	clear_data(data);
 	return (error_data(str));
-}
-
-void	clear_data(t_data *data)
-{
-	if (data)
-	{
-		free(data);
-		data = NULL;
-	}
-}
-
-void	clear_philo(t_philo *philo)
-{
-	if (philo)
-	{
-		free(philo);
-		philo = NULL;
-	}
 }
