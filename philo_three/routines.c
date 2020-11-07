@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:11 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/07 10:25:21 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 17:11:01 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	*philo_dies(void *philo)
 		if (p->death <= t && !p->is_eating)
 		{
 			p->data->end = 1;
-			
 			write_message(p->num, p, " dies.\n");
 			sem_post(p->data->sem_dead);
 			return ((void *)1);
@@ -72,10 +71,6 @@ void		*routine_philo(t_philo *philo)
 			return (NULL);
 	}
 	sem_wait(philo->data->sem_dead);
-	while (1)
-	{
-		
-	}
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:42 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:06:59 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 11:20:23 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ t_data	*init_data(int argc, char **argv)
 	if (((check_args(argc, argv)) == 1)
 		|| ((data->nb_philo = ft_atoi(argv[1])) == -1))
 		return (exit_data(data, "Wrong arguments.\n", 0));
-	if ((data->time_to_die = ft_atoull(argv[2])) <= 0)
-		return (exit_data(data, "0 1 dies.\n", 0));
-	data->time_to_eat = ft_atoull(argv[3]);
-	data->time_to_sleep = ft_atoull(argv[4]);
+	if ((data->time_to_die = ft_atoull(argv[2])) <= 0
+		|| (data->time_to_eat = ft_atoull(argv[3])) <= 0
+		|| (data->time_to_sleep = ft_atoull(argv[4]) <= 0))
+		return (exit_data(data, "Wrong arguments.\n", 0));
 	if (argc == 6)
-		if ((data->nb_needed_meals = ft_atoi(argv[5])) == -1)
+		if ((data->nb_needed_meals = ft_atoi(argv[5])) <= 0)
 			return (exit_data(data, "Wrong arguments.\n", 0));
 	if (pthread_mutex_init(&data->mutex_write, NULL))
 		return (exit_data(data, "Problem with mutex creation.\n", 0));

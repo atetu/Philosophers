@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 11:15:38 by atetu             #+#    #+#             */
-/*   Updated: 2020/11/06 15:31:16 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:52:05 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ int			thread_wait_death_or_meals(t_data *data, t_philo *philo)
 		}
 		while (1)
 			if (data->end == 1)
-				return (1) ;
+				return (1);
 	}
 	else
 	{
 		while (1)
 			if (data->end == 1)
-				return (1) ;
+				return (1);
 	}
 	return (1);
 }

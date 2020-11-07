@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:11 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:09:02 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 17:46:06 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,35 @@ void				*routine_philo(void *philo)
 {
 	t_philo			*p;
 	pthread_t		control_death;
-	pthread_t		thread_philo_actions;
+	//pthread_t		thread_philo_actions;
 
 	p = (t_philo*)philo;
 	p->start = p->data->start;
-	if (pthread_create(&control_death, NULL, &philo_dies, philo)
-		|| pthread_create(&thread_philo_actions, NULL, &philo_action, philo))
+	if (pthread_create(&control_death, NULL, &philo_dies, philo))
+		{
+			write_message(0, philo, "Problem during memory allocation.\n");
+			pthread_mutex_unlock(&p->data->mutex_died);
+			return ((void*)1);
+		}
+	while (p && p->data->nb_deaths == 0)
 	{
-		write_message(0, philo, "Problem during memory allocation.\n");
-		pthread_mutex_unlock(&p->data->mutex_died);
-		return ((void*)1);
+		takes_fork(p->num, p);
+		eats(p->num, p);
+		puts_down_forks(p->num, p);
+		sleeps(p->num, p);
+		write_message(p->num, p, " is thinking.\n");
+		ft_sleep(timestamp() + 2, philo);
 	}
-	while (p->data->nb_deaths == 0)
-	{
-	}
+	// if (pthread_create(&control_death, NULL, &philo_dies, philo)
+	// 	|| pthread_create(&thread_philo_actions, NULL, &philo_action, philo))
+	// {
+	// 	write_message(0, philo, "Problem during memory allocation.\n");
+	// 	pthread_mutex_unlock(&p->data->mutex_died);
+	// 	return ((void*)1);
+	// }
+	// while (p->data->nb_deaths == 0)
+	// {
+	// }
 	return (NULL);
 }
 

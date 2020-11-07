@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:42 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:05:42 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 11:25:58 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		check_sixth_arg(int argc, char **argv, t_data *data)
 {
 	if (argc == 6)
 	{
-		if ((data->nb_needed_meals = ft_atoi(argv[5])) == -1)
+		if ((data->nb_needed_meals = ft_atoi(argv[5])) <= 0)
 			return (0);
 	}
 	else
@@ -47,17 +47,14 @@ t_data	*init_data(int argc, char **argv)
 	if (!(data = malloc(sizeof(t_data))))
 		return (error_data("Problem during memory allocation.\n"));
 	memset(data, 0, sizeof(t_data));
-	if ((check_args(argc, argv)) == 1)
+	if (((check_args(argc, argv)) == 1)
+		|| ((data->nb_philo = ft_atoi(argv[1])) == -1))
 		return (exit_data(data, "Wrong arguments.\n"));
-	if ((data->nb_philo = ft_atoi(argv[1])) == -1)
-		return (exit_data(data, "Wrong arguments.\n"));
-	if (data->nb_philo <= 0)
-		return (exit_data(data, "No philosophers.\n"));
 	data->nb_forks = data->nb_philo;
-	if ((data->time_to_die = ft_atoull(argv[2])) <= 0)
-		return (exit_data(data, "0 1 dies.\n"));
-	data->time_to_eat = ft_atoull(argv[3]);
-	data->time_to_sleep = ft_atoull(argv[4]);
+	if ((data->time_to_die = ft_atoull(argv[2])) <= 0
+		|| (data->time_to_eat = ft_atoull(argv[3])) <= 0
+		|| (data->time_to_sleep = ft_atoull(argv[4]) <= 0))
+		return (exit_data(data, "Wrong arguments.\n"));
 	if (!check_sixth_arg(argc, argv, data))
 		return (exit_data(data, "Wrong arguments.\n"));
 	data->sem_forks = create_sem("forks", data->nb_philo);

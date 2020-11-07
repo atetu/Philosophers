@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:05 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 16:07:00 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:49:46 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		exit_philo_data(t_philo *philo, int n)
 	}
 	return (n);
 }
-
 
 int		exit_philo_data_array(t_philo *philo, pthread_t *array_wait_pid, int n)
 {

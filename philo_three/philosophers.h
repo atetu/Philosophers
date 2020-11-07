@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 17:09:40 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:50:24 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <semaphore.h>
 # include <errno.h>
 # include <signal.h>
-
-#include <stdio.h> //a eneleber
 
 typedef struct			s_data
 {
@@ -90,7 +88,8 @@ void					puts_down_forks(int num, t_philo *philo);
 void					sleeps(int num, t_philo *philo);
 void					write_message(int num, t_philo *philo, char *str);
 int						exit_philo_data(t_philo *philo, int n);
-int						exit_philo_data_array(t_philo *philo, pthread_t *array_wait_pid, int n);
+int						exit_philo_data_array(t_philo *philo,
+							pthread_t *array_wait_pid, int n);
 void					*exit_data(t_data *data, char *str);
 void					clear_data(t_data *data);
 void					clear_philo(t_philo *philo);

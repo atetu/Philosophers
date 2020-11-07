@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:05 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 13:14:47 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:29:46 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ int		exit_philo(t_philo *philo, int n)
 		nb = philo[0].data->nb_philo;
 		sem_post(philo->data->sem_forks);
 		sem_post(philo->data->sem_forks);
-		sem_close(philo->data->sem_forks);
-		sem_close(philo->data->sem_write);
-		sem_unlink("forks");
-		sem_unlink("write");
 		clear_data(philo[0].data);
 		clear_philo(philo);
 	}

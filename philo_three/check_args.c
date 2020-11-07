@@ -6,13 +6,13 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 16:38:06 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 16:39:10 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:52:13 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int			check_args(int argc, char **argv)
+int		check_args(int argc, char **argv)
 {
 	int i;
 	int j;
@@ -36,7 +36,7 @@ int		check_sixth_arg(int argc, char **argv, t_data *data)
 {
 	if (argc == 6)
 	{
-		if ((data->nb_needed_meals = ft_atoi(argv[5])) == -1)
+		if ((data->nb_needed_meals = ft_atoi(argv[5])) <= 0)
 			return (0);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:11 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/10/13 14:33:58 by atetu            ###   ########.fr       */
+/*   Updated: 2020/11/07 17:27:56 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void				*routine_philo(void *philo)
 		puts_down_forks(p->num, p);
 		sleeps(p->num, p);
 		write_message(p->num, p, " is thinking.\n");
+		ft_sleep(timestamp() + 1, philo);
 	}
 	return (NULL);
 }

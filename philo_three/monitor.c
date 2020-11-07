@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 18:30:54 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:31:48 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 17:11:40 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*monitor_each_pid(void *philo)
 {
 	int			status;
 	t_philo		*p;
-	
+
 	p = philo;
 	waitpid(p->process, &status, 0);
 	p[0].data->end = 1;
@@ -27,7 +27,7 @@ void	*monitor_global_meals(void *philo)
 {
 	t_philo *p;
 	int		i;
-	
+
 	i = 0;
 	p = (t_philo *)philo;
 	while (i < p->data->nb_philo)
@@ -42,8 +42,8 @@ void	*monitor_global_meals(void *philo)
 
 void	*process_wait_meals(void *philo)
 {
-	int i;
-	t_philo *p;
+	int		i;
+	t_philo	*p;
 
 	i = 0;
 	p = philo;
@@ -62,7 +62,10 @@ void	*monitor_global_death(void *data)
 	t_data *d;
 
 	d = data;
-	sem_wait(d->sem_dead);
-	d->end = 1;
+	while (1)
+	{
+		if (d->end == 1)
+			return (NULL);
+	}
 	return (NULL);
 }

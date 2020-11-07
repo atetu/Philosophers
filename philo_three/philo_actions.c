@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:33:50 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:32:39 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:51:43 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	takes_fork(int num, t_philo *philo)
 void	eats(int num, t_philo *philo)
 {
 	philo->is_eating = 1;
+	philo->death = timestamp() + philo->data->time_to_die;
 	write_message(num, philo, " is eating.\n");
 	philo->count_meals++;
 	ft_sleep(timestamp() + philo->data->time_to_eat, philo);
-	philo->death = timestamp() + philo->data->time_to_die;
 	philo->is_eating = 0;
 }
 

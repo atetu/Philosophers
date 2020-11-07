@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/10/13 13:45:14 by atetu            ###   ########.fr       */
+/*   Updated: 2020/11/07 14:07:42 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ void				*routine_philo(void *philo);
 void				*routine_meals(void *philo);
 void				*routine_total_meals(void *philo);
 unsigned long long	timestamp(void);
-void				takes_fork(int num, t_philo *philo);
-void				eats(int num, t_philo *philo);
-void				puts_down_forks(int num, t_philo *philo);
-void				sleeps(int num, t_philo *philo);
-void				write_message(int num, t_philo *philo, char *str);
+int					takes_fork(int num, t_philo *philo);
+int					eats(int num, t_philo *philo);
+int					puts_down_forks(int num, t_philo *philo);
+int					sleeps(int num, t_philo *philo);
+int					write_message(int num, t_philo *philo, char *str);
 void				*philo_dies(void *philo);
 int					exit_philo(t_philo *philo, int n);
 void				*exit_data(t_data *data, char *str);

@@ -3,56 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:33:50 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/10/13 14:49:12 by atetu            ###   ########.fr       */
+/*   Updated: 2020/11/07 17:26:03 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	takes_fork(int num, t_philo *philo)
+int		takes_fork(int num, t_philo *philo)
 {
-	if (!philo->data->nb_deaths)
-	{
-		sem_wait(philo->data->sem_forks);
-		write_message(num, philo, " has taken a fork.\n");
-	}
-	if (!philo->data->nb_deaths)
-	{
-		sem_wait(philo->data->sem_forks);
-		write_message(num, philo, " has taken a fork.\n");
-	}
 	ft_sleep(timestamp() + 1, philo);
+	sem_wait(philo->data->sem_forks);
+	if (!(write_message(num, philo, " has taken a fork.\n")))
+		return (0);
+	sem_wait(philo->data->sem_forks);
+	if (!(write_message(num, philo, " has taken a fork.\n")))
+		return (0);
+	//ft_sleep(timestamp() + 1, philo);
+	return (1);
 }
 
-void	eats(int num, t_philo *philo)
+int		eats(int num, t_philo *philo)
 {
 	philo->is_eating = 1;
-	write_message(num, philo, " is eating.\n");
+	philo->death = timestamp() + philo->data->time_to_die;
+	if (!(write_message(num, philo, " is eating.\n")))
+		return (0);
 	philo->count_meals++;
 	ft_sleep(timestamp() + philo->data->time_to_eat, philo);
 	philo->death = timestamp() + philo->data->time_to_die;
 	philo->is_eating = 0;
-	ft_sleep(timestamp() + 1, philo);
+//	ft_sleep(timestamp() + 1, philo);
+	return (1);
 }
 
-void	sleeps(int num, t_philo *philo)
+int		sleeps(int num, t_philo *philo)
 {
-	write_message(num, philo, " is sleeping.\n");
+	if (!(write_message(num, philo, " is sleeping.\n")))
+		return (0);
 	ft_sleep(timestamp() + philo->data->time_to_sleep, philo);
+	return (1);
 }
 
-void	puts_down_forks(int num, t_philo *philo)
+int		puts_down_forks(int num, t_philo *philo)
 {
-	if (!philo->data->nb_deaths)
-		sem_post(philo->data->sem_forks);
-	if (!philo->data->nb_deaths)
-	{
-		sem_post(philo->data->sem_forks);
-		write_message(num, philo, " puts down his forks.\n");
-	}
+	sem_post(philo->data->sem_forks);
+	sem_post(philo->data->sem_forks);
+	if (!(write_message(num, philo, " puts down his forks.\n")))
+		return (0);
+	return (1);
 }
 
 void	*philo_dies(void *philo)

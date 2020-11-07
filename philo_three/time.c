@@ -6,12 +6,11 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 18:30:24 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:32:45 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 16:51:32 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
 
 unsigned long long	timestamp(void)
 {

@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:26:53 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 11:02:33 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 17:44:50 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int		init_threads(t_philo *philo, int nb_philo)
 			return (error("Problem during thread creation.\n"));
 		}
 		i++;
-		ft_sleep(timestamp() + 2, philo);
+		//usleep(200);
+		ft_sleep(timestamp() + 1, philo);
 	}
 	return (0);
 }
@@ -72,6 +73,7 @@ void	*philo_action(void *philo)
 			return (NULL);
 		if (!(write_message(p->num, p, " is thinking.\n")))
 			return (NULL);
+		ft_sleep(timestamp() + 1, philo);
 	}
 	return (NULL);
 }

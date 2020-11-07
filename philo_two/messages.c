@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 12:12:18 by atetu             #+#    #+#             */
-/*   Updated: 2020/10/13 14:40:46 by atetu            ###   ########.fr       */
+/*   Updated: 2020/11/07 16:36:48 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int		check_program_end(int num, t_philo *philo, char *str)
 	{
 		ft_putstr(str);
 		ft_sleep(timestamp() + 1, philo);
-		sem_post(philo->data->sem_write);
 		return (1);
 	}
 	if (!(ft_strncmp(str, " dies.\n", 7)))
@@ -32,7 +31,6 @@ static int		check_program_end(int num, t_philo *philo, char *str)
 		ft_putstr(str);
 		philo->data->nb_deaths = 1;
 		ft_sleep(timestamp() + 1, philo);
-		sem_post(philo->data->sem_write);
 		return (1);
 	}
 	return (0);
@@ -53,7 +51,7 @@ static int		check_num_str(int num, char *str)
 	return (0);
 }
 
-void			write_message(int num, t_philo *philo, char *str)
+int				write_message(int num, t_philo *philo, char *str)
 {
 	unsigned long long	t;
 
@@ -63,9 +61,9 @@ void			write_message(int num, t_philo *philo, char *str)
 		if (philo->data->end)
 		{
 			if (check_num_str(num, str))
-				return ;
+				return (0);
 			if (check_program_end(num, philo, str))
-				return ;
+				return (0);
 		}
 		if (!philo->data->nb_deaths)
 		{
@@ -76,7 +74,10 @@ void			write_message(int num, t_philo *philo, char *str)
 			ft_putstr(str);
 		}
 	}
+	else
+		return (0);
 	sem_post(philo->data->sem_write);
+	return (1);
 }
 
 int				error(char *str)
