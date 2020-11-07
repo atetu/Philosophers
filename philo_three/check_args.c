@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 11:04:51 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 16:06:38 by alicetetu        ###   ########.fr       */
+/*   Created: 2020/11/06 16:38:06 by alicetetu         #+#    #+#             */
+/*   Updated: 2020/11/06 16:39:10 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	clear_data(t_data *data)
+int			check_args(int argc, char **argv)
 {
-	if (data)
+	int i;
+	int j;
+
+	i = 1;
+	while (i < argc)
 	{
-		free(data);
-		data = NULL;
+		j = 0;
+		while (j < ft_strlen(argv[i]))
+		{
+			if (argv[i][j] == '-' || argv[i][j] < 48 || argv[i][j] > 57)
+				return (1);
+			j++;
+		}
+		i++;
 	}
+	return (0);
 }
 
-void	clear_philo(t_philo *philo)
+int		check_sixth_arg(int argc, char **argv, t_data *data)
 {
-	if (philo)
+	if (argc == 6)
 	{
-		free(philo);
-		philo = NULL;
+		if ((data->nb_needed_meals = ft_atoi(argv[5])) == -1)
+			return (0);
 	}
-}
-
-void	clear_array_wait_pid(pthread_t *array_wait_pid)
-{
-	if (array_wait_pid)
-	{
-		free(array_wait_pid);
-		array_wait_pid = NULL;
-	}
+	else
+		data->nb_needed_meals = -1;
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 16:49:42 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:35:53 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 16:38:24 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,19 @@ sem_t	*create_sem(char *name, int n)
 	return (sem);
 }
 
-int		check_sixth_arg(int argc, char **argv, t_data *data)
+static void	init_sem(t_data *data)
 {
-	if (argc == 6)
+	data->sem_forks = create_sem("forks", data->nb_philo);
+	data->sem_write = create_sem("write", 1);
+	data->sem_dead = create_sem("dead", 1);
+	sem_wait(data->sem_dead);
+	if (data->nb_needed_meals != -1)
 	{
-		if ((data->nb_needed_meals = ft_atoi(argv[5])) == -1)
-			return (0);
+		sem_unlink("meals");
+		data->sem_meals = create_sem("meals", 1);
+		sem_wait(data->sem_meals);
 	}
-	else
-		data->nb_needed_meals = -1;
-	return (1);
-}
+} 	
 
 t_data	*init_data(int argc, char **argv)
 {
@@ -60,16 +62,7 @@ t_data	*init_data(int argc, char **argv)
 	data->time_to_sleep = ft_atoull(argv[4]);
 	if (!check_sixth_arg(argc, argv, data))
 		return (exit_data(data, "Wrong arguments.\n"));
-	data->sem_forks = create_sem("forks", data->nb_philo);
-	data->sem_write = create_sem("write", 1);
-	data->sem_dead = create_sem("dead", 1);
-	sem_wait(data->sem_dead);
-	if (data->nb_needed_meals != -1)
-	{
-		sem_unlink("meals");
-		data->sem_meals = create_sem("meals", 1);
-		sem_wait(data->sem_meals);
-	}
+	init_sem(data);
 	data->start = timestamp();
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:32:03 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 17:09:40 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,5 @@ sem_t					*create_sem(char *name, int n);
 int						thread_wait_death_or_meals(t_data *data,
 							t_philo *philo);
 void					*process_wait_meals(void *philo);
+int						check_sixth_arg(int argc, char **argv, t_data *data);
 #endif

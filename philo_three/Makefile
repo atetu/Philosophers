@@ -6,13 +6,14 @@
 #    By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/04 18:47:11 by alicetetu         #+#    #+#              #
-#    Updated: 2020/11/06 15:40:09 by alicetetu        ###   ########.fr        #
+#    Updated: 2020/11/06 17:10:05 by alicetetu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 		philo_three
 
 SRCS =		main.c \
+			check_args.c \
 			clear.c \
 			exit.c \
 			init.c \

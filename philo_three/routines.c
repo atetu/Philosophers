@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:44:11 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:36:32 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 10:25:21 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void		*routine_philo(t_philo *philo)
 			return (NULL);
 	}
 	sem_wait(philo->data->sem_dead);
+	while (1)
+	{
+		
+	}
 	return (NULL);
 }
 

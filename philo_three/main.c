@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:28:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 15:30:39 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/06 16:38:57 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,4 @@ int			main(int argc, char **argv)
 		return (exit_philo_data_array(philo, array_wait_pid, 0));
 	kill_process(data, philo);
 	return (exit_philo_data_array(philo, array_wait_pid, 0));
-}
-
-int			check_args(int argc, char **argv)
-{
-	int i;
-	int j;
-
-	i = 1;
-	while (i < argc)
-	{
-		j = 0;
-		while (j < ft_strlen(argv[i]))
-		{
-			if (argv[i][j] == '-' || argv[i][j] < 48 || argv[i][j] > 57)
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
 }
