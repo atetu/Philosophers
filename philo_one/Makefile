@@ -6,13 +6,14 @@
 #    By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/04 18:47:11 by alicetetu         #+#    #+#              #
-#    Updated: 2020/11/04 18:53:31 by alicetetu        ###   ########.fr        #
+#    Updated: 2020/11/07 19:02:53 by alicetetu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 		philo_one
 
 SRCS =		main.c \
+			error.c \
 			exit.c \
 			init.c \
 			messages.c \

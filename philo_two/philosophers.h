@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/07 14:07:42 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 18:32:50 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct		s_data
 	int					nb_forks;
 	int					sixth;
 	int					end;
+	unsigned long long	last;
+	int					lphilo;
 	sem_t				*sem_forks;
 	sem_t				*sem_write;
 	pthread_t			thread_total_meals;

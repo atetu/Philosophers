@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:33:50 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/07 17:26:03 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 19:05:09 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 int		takes_fork(int num, t_philo *philo)
 {
 	ft_sleep(timestamp() + 1, philo);
+	if ((timestamp() - philo->data->start)
+		== philo->data->last)
+		ft_sleep(timestamp() + 1, philo);
 	sem_wait(philo->data->sem_forks);
 	if (!(write_message(num, philo, " has taken a fork.\n")))
 		return (0);
 	sem_wait(philo->data->sem_forks);
 	if (!(write_message(num, philo, " has taken a fork.\n")))
 		return (0);
-	//ft_sleep(timestamp() + 1, philo);
 	return (1);
 }
 
@@ -33,9 +35,7 @@ int		eats(int num, t_philo *philo)
 		return (0);
 	philo->count_meals++;
 	ft_sleep(timestamp() + philo->data->time_to_eat, philo);
-	philo->death = timestamp() + philo->data->time_to_die;
 	philo->is_eating = 0;
-//	ft_sleep(timestamp() + 1, philo);
 	return (1);
 }
 
@@ -53,6 +53,7 @@ int		puts_down_forks(int num, t_philo *philo)
 	sem_post(philo->data->sem_forks);
 	if (!(write_message(num, philo, " puts down his forks.\n")))
 		return (0);
+	ft_sleep(timestamp() + 1, philo);
 	return (1);
 }
 

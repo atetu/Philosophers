@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 21:02:15 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 11:06:04 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 19:02:05 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,24 @@ static int		check_num_str(int num, char *str)
 	return (0);
 }
 
-int				write_message(int num, t_philo *philo, char *str)
+static void		write_message_action(int num, t_philo *philo, char *str)
 {
 	unsigned long long	t;
 
+	t = (timestamp() - philo->data->start);
+	ft_putnbr_ull(t);
+	write(1, " ", 1);
+	ft_putnbr_ull((unsigned long long)(num));
+	ft_putstr(str);
+	if (!(ft_strncmp(str, " has taken a fork.\n", 19)))
+	{
+		philo->data->last = t;
+		philo->data->lphilo = philo->num;
+	}
+}
+
+int				write_message(int num, t_philo *philo, char *str)
+{
 	pthread_mutex_lock(&philo->data->mutex_write);
 	if (!philo->data->nb_deaths)
 	{
@@ -65,30 +79,10 @@ int				write_message(int num, t_philo *philo, char *str)
 				return (0);
 		}
 		if (!philo->data->nb_deaths)
-		{
-			t = (timestamp() - philo->data->start);
-			ft_putnbr_ull(t);
-			write(1, " ", 1);
-			ft_putnbr_ull((unsigned long long)(num));
-			ft_putstr(str);
-		}
+			write_message_action(num, philo, str);
 	}
 	else
 		return (0);
 	pthread_mutex_unlock(&philo->data->mutex_write);
 	return (1);
-}
-
-int				error(char *str)
-{
-	if (str)
-		write(1, str, ft_strlen(str));
-	return (1);
-}
-
-void			*error_data(char *str)
-{
-	if (str)
-		write(1, str, ft_strlen(str));
-	return (0);
 }

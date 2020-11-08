@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:26:53 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/07 17:44:50 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 18:21:20 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int		init_threads_meals(t_philo *philo, int nb_philo)
 int		init_threads(t_philo *philo, int nb_philo)
 {
 	int i;
+	int turn;
 
 	i = 0;
+	turn = 1;
 	while (i < nb_philo)
 	{
 		if (pthread_create(&philo[i].thread_philo, NULL, &routine_philo,
@@ -49,8 +51,12 @@ int		init_threads(t_philo *philo, int nb_philo)
 			exit_philo(philo, 1);
 			return (error("Problem during thread creation.\n"));
 		}
-		i++;
-		//usleep(200);
+		i = i + 2;
+		if (turn == 1 && i >= nb_philo)
+		{
+			i = 1;
+			turn = 2;
+		}
 		ft_sleep(timestamp() + 1, philo);
 	}
 	return (0);

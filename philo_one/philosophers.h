@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/04 18:37:29 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/11/06 11:07:33 by alicetetu        ###   ########.fr       */
+/*   Updated: 2020/11/07 18:53:13 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct		s_data
 	int					eaten_meals;
 	int					nb_deaths;
 	int					end;
+	unsigned long long	last;
+	int					lphilo;
 	t_fork				**forks;
 	pthread_mutex_t		mutex_write;
 	pthread_mutex_t		mutex_died;
